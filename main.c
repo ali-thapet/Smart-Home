@@ -23,33 +23,45 @@
 #define F_CPU 8000000
 #include <util/delay.h>
 
+/*************Security login system*************/
+/* Notes:
+If the password has been entered 3 times wrong then the system will lock for 30 seconds then will ask for the password again,
+If the password has been entered 3 times wrong for second time the buzzer is on ,red led is on and system will lock until user enter the emergency password
+then the password will be default five zeros
+*/
 
-
-
+/*************Fire alarm system*****************/
+/*Notes:
+3 modes system (Normal-Heat-Fire) consists of:
+1- 2 sensors(tempreture -smoke with potenchometer) 
+2- 2 leds for modes(green-red)
+3-password to reset using eeprom to save it
+*/
 
 int main(void)
 {
     
     DIO_Init();
-	ADC_Init();
-	UART_Init();
-	KEYPAD_Init();
+    ADC_Init();
+    UART_Init();
+    KEYPAD_Init();
     LCD_Init();
-	Servo_Init();
-	TIMER0_Init(TIMER0_FASTPWM_MODE,TIMER0_SCALER_8);
-	TIMER0_OC0Mode(OC0_NON_INVERTING);
+    Servo_Init();
+    TIMER0_Init(TIMER0_FASTPWM_MODE,TIMER0_SCALER_8);
+    TIMER0_OC0Mode(OC0_NON_INVERTING);
     UART_Service_Init();
-	sei();
+    sei();
     u8 key=NO_KEY, PWS_Change=0,r=0,Correct_Pass=0,index=0;
     u8 pass[PASS_Length];
     u8 TempPass[PASS_Length];
     u16 address=0,WrongPass_Counter=0;
     u8 First_Time,FirstTime_address=5,UnFinished_Pass_address=6;
-	u8 NormalFlag=0,VFlag=0,FireFlag=0,PassFlag=1,HeatFlag=0,UnFinished_Pass,LockFlag=0,OneTime_Flag=0,i=0,j=0;
-	u16 F_temp=0,UnF_temp;
-	u32 Gas;
+    u8 NormalFlag=0,VFlag=0,FireFlag=0,PassFlag=1,HeatFlag=0,UnFinished_Pass,LockFlag=0,OneTime_Flag=0,i=0,j=0;
+    u16 F_temp=0,UnF_temp;
+    u32 Gas;
     u16 str[20]={0};
     u8 data;
+	
 	First_Time=EEPROM_Read(FirstTime_address);
 	
 	/* check if we still use default password or not */
