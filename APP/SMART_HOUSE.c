@@ -12,16 +12,19 @@
 #include "UART_Service.h"
 #include "SMART_HOUSE.h"
 
+
 volatile u8 AIR_OFF_Flag;
 
+/*Array of Messages and Functions that the system can handle */
+
 Task_Type Arr[8]={  {"DOOR",Open_Door},
-	                {"GARAGE",Open_Garage},
+	            {"GARAGE",Open_Garage},
                     {"RMON",Room_ON},
-				    {"RMOFF",Room_OFF},
-				    {"GON",Garage_ON},
-				    {"GOFF",Garage_OFF},	   	   
+		    {"RMOFF",Room_OFF},
+		    {"GON",Garage_ON},
+		    {"GOFF",Garage_OFF},	   	   
                     {"AIRON",AIR_CON_ON},
-					{"AIROFF",AIR_CON_OFF}	
+		    {"AIROFF",AIR_CON_OFF}	
 	                                         };
 
 
